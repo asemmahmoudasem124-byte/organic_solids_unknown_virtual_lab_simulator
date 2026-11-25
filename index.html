@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaLab Qualitative Bench — Organic Solid Unknown Scheme</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            bench: {
+              bg: '#090d16',
+              card: '#0f1623',
+              panel: '#131c2e',
+              border: '#1e293b',
+              hover: '#1a253a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom scrollbar for dark laboratory theme */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b101b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #233047;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334666;
+    }
+
+    @keyframes riseBubble {
+      0% { transform: translateY(0) scale(0.8); opacity: 0.85; }
+      100% { transform: translateY(-95px) scale(1.2); opacity: 0; }
+    }
+    .bubble-anim {
+      animation: riseBubble 1.4s infinite ease-in;
+    }
+    .bubble-anim-delay-1 {
+      animation: riseBubble 1.2s 0.35s infinite ease-in;
+    }
+    .bubble-anim-delay-2 {
+      animation: riseBubble 1.6s 0.7s infinite ease-in;
+    }
+
+    @keyframes flameFlicker {
+      0%, 100% { transform: scaleY(1) scaleX(1); opacity: 0.92; }
+      50% { transform: scaleY(1.12) scaleX(0.93); opacity: 1; }
+    }
+    .flame-anim {
+      transform-origin: bottom center;
+      animation: flameFlicker 0.35s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-bench-bg text-slate-200 font-sans min-h-screen flex flex-col selection:bg-emerald-500/30 selection:text-emerald-200">
+
+  <!-- TOP NAVIGATION HEADER -->
+  <header class="border-b border-bench-border bg-bench-card/90 backdrop-blur-md sticky top-0 z-30">
+    <div class="max-w-[1600px] mx-auto px-4 py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-lg shadow-emerald-950/40 shrink-0">
+          <!-- Erlenmeyer Flask SVG -->
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3h6M10 3v5.5L4.5 18A2 2 0 006.2 21h11.6a2 2 0 001.7-3L14 8.5V3M7.5 14h9" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold tracking-tight text-white">
+              PharmaLab <span class="text-emerald-400">Qualitative Bench</span>
+            </h1>
+            <span class="hidden sm:inline-block text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">
+              Solid Scheme v2.4
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Organic Solid Unknown Scheme Simulator (15 Solid Compounds)</p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher & Quick Scheme Reference -->
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex rounded-xl bg-[#0a0f1a] p-1 border border-bench-border" role="group">
+          <button id="mode-guided" onclick="setMode('guided')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">
+            Guided Study Mode
+          </button>
+          <button id="mode-exam" onclick="setMode('exam')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-rose-600 text-white shadow-md shadow-rose-950/60">
+            🔥 Hard Exam Mode (Real Bench)
+          </button>
+          <button id="mode-sandbox" onclick="setMode('sandbox')" class="px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white">
+            Free Sandbox
+          </button>
+        </div>
+
+        <button onclick="toggleSchemeModal(true)" class="px-3 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-xs font-medium text-slate-200 flex items-center gap-1.5 transition">
+          <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Scheme Flowchart</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUB-HEADER STATUS BAR -->
+    <div class="border-t border-bench-border/80 bg-[#0b101b]/90">
+      <div class="max-w-[1600px] mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex flex-wrap items-center gap-3">
+          <span id="vial-badge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-rose-950/70 border border-rose-500/40 text-rose-300 font-mono font-semibold">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+            <span id="vial-id-text">UNKNOWN VIAL # S-402</span>
+          </span>
+          <span id="mode-instruction" class="text-slate-400">
+            Real Bench: Measure exact mLs, drops & spatulas from raw bottles without scheme hints.
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Sandbox Compound Selector (Shown only in Free Sandbox mode) -->
+          <div id="sandbox-selector-wrap" class="hidden items-center gap-2">
+            <label for="sandbox-compound-select" class="text-amber-400 font-medium">Sandbox Solid:</label>
+            <select id="sandbox-compound-select" onchange="selectSandboxCompound(this.value)" class="bg-slate-900 border border-amber-500/40 text-amber-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-amber-400">
+            </select>
+          </div>
+
+          <button onclick="assignNewUnknown()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium flex items-center gap-1.5 transition">
+            <span>↻ New Random Unknown</span>
+          </button>
+
+          <div class="hidden sm:flex items-center gap-3 font-mono text-slate-400 pl-2 border-l border-slate-800">
+            <span>Active Tube: <strong id="status-active-tube" class="text-emerald-400">#1</strong></span>
+            <span>Actions: <strong id="status-actions-count" class="text-sky-400">0</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN 3-COLUMN WORKBENCH -->
+  <main class="flex-1 max-w-[1600px] w-full mx-auto p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+
+    <!-- LEFT PANEL: REAGENTS & LITMUS (4 cols on lg) -->
+    <section class="lg:col-span-4 flex flex-col gap-4">
+
+      <!-- SOLID REAGENT JARS & UNKNOWN SAMPLE -->
+      <div class="bg-bench-card border border-bench-border rounded-2xl p-4 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <span>🥄</span> Solid Reagent Jars & Unknown
+          </h2>
+          <span class="text-[11px] font-mono text-slate-500">Dispense to Tube #<span class="active-tube-num">1</span></span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <!-- Unknown Solid Jar -->
+          <div class="bg-emerald-950/25 border border-emerald-500/30 rounded-xl p-2.5 flex flex-col justify-between gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-emerald-300 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Unknown Solid
+              </span>
+              <span class="text-[10px] font-mono text-emerald-400/70">Sample</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5">
+              <button onclick="addSolid('unknown', 1)" class="py-1.5 px-2 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/40 text-emerald-200 text-[11px] font-mono font-medium transition active:scale-95">
+                +1 spatula
+              </button>
+              <button onclick="addSolid('unknown', 2)" class="py-1.5 px-2 rounded-lg bg-emerald-600/25 hover:bg-emerald-600/40 border border-emerald-500/40 text-emerald-200 text-[11px] font-mono font-medium transition active:scale-95">
+                +2 spatulas
+              </button>
+            </div>
+          </div>
+
+          <!-- Solid Na2CO3 Jar -->
+          <div class="bg-bench-panel border border-bench-border rounded-xl p-2.5 flex flex-col justify-between gap-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+                Solid Na₂CO₃
+              </span>
+              <span class="text-[10px] font-mono text-slate-500">Acid Test</span>
+            </div>
+            <button onclick="addSolid('na2co3', 1)" class="w-full py-1.5 px-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600/60 text-amber-300 text-[11px] font-mono font-medium transition active:scale-95">
+              +1 spatula Na₂CO₃
+            </button>
+          </div>
+        </div>
+
+        <!-- LITMUS PAPER STRIPS -->
+        <div class="mt-3 pt-3 border-t border-bench-border/80 grid grid-cols-2 gap-2.5">
+          <button onclick="dipLitmus('blue')" class="py-2 px-3 rounded-xl bg-blue-950/50 hover:bg-blue-900/60 border border-blue-500/40 text-blue-300 text-xs font-semibold flex items-center justify-center gap-2 transition active:scale-95">
+            <span class="w-3.5 h-1.5 rounded-sm bg-blue-400 inline-block"></span>
+            Dip Blue Litmus
+          </button>
+          <button onclick="dipLitmus('red')" class="py-2 px-3 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 border border-rose-500/40 text-rose-300 text-xs font-semibold flex items-center justify-center gap-2 transition active:scale-95">
+            <span class="w-3.5 h-1.5 rounded-sm bg-rose-400 inline-block"></span>
+            Dip Red Litmus
+          </button>
+        </div>
+      </div>
+
+      <!-- RAW LIQUID REAGENT BOTTLES -->
+      <div class="bg-bench-card border border-bench-border rounded-2xl p-4 shadow-xl flex-1">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+            <span>🧪</span> Raw Liquid Reagent Bottles
+          </h2>
+          <span class="text-[11px] font-mono text-slate-500">Dispense into Tube #<span class="active-tube-num">1</span></span>
+        </div>
+
+        <div id="reagent-bottles-list" class="space-y-2 max-h-[430px] overflow-y-auto pr-1">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CENTER PANEL: TEST TUBES & THERMAL/BENCH CONTROLS (5 cols on lg) -->
+    <section class="lg:col-span-5 bg-bench-card border border-bench-border rounded-2xl p-4 shadow-xl flex flex-col justify-between">
+
+      <!-- Tube Tabs & Reset -->
+      <div>
+        <div class="flex items-center justify-between gap-2 pb-3 border-b border-bench-border">
+          <div class="flex items-center gap-1.5">
+            <button id="tab-tube-0" onclick="switchTube(0)" class="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition">
+              Tube #1
+            </button>
+            <button id="tab-tube-1" onclick="switchTube(1)" class="px-3.5 py-1.5 rounded-xl text-xs font-medium bg-bench-panel text-slate-400 border border-bench-border hover:text-slate-200 transition">
+              Tube #2
+            </button>
+            <button id="tab-tube-2" onclick="switchTube(2)" class="px-3.5 py-1.5 rounded-xl text-xs font-medium bg-bench-panel text-slate-400 border border-bench-border hover:text-slate-200 transition">
+              Tube #3
+            </button>
+          </div>
+
+          <button onclick="resetActiveTube()" class="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/70 border border-rose-500/40 text-rose-300 text-xs font-semibold flex items-center gap-1.5 transition">
+            <span>🗑</span> Reset Tube
+          </button>
+        </div>
+
+        <!-- Tube Sub-header: Label, State Badge, Volume -->
+        <div class="flex items-center justify-between py-2.5">
+          <div class="flex items-center gap-2">
+            <span id="tube-title" class="text-sm font-bold text-white">Tube #1</span>
+            <span id="tube-status-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Clean & Dry
+            </span>
+          </div>
+          <span id="tube-volume-display" class="text-xs font-mono text-slate-400">
+            Vol: 0.00 mL
+          </span>
+        </div>
+
+        <!-- VISUAL TEST TUBE STAGE -->
+        <div class="relative my-1 rounded-2xl bg-[#080c14] border border-bench-border/90 py-5 px-4 flex flex-col items-center justify-center min-h-[275px] overflow-hidden">
+          <!-- Temperature / Condition Pill -->
+          <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 text-[11px] font-medium text-sky-300">
+            <span id="temp-dot" class="w-2 h-2 rounded-full bg-sky-400"></span>
+            <span id="temp-label">Room Temp</span>
+          </div>
+
+          <!-- Litmus Result Pill (if dipped) -->
+          <div id="litmus-badge-container" class="hidden absolute top-3 right-3 px-2.5 py-1 rounded-full bg-slate-900/95 border border-slate-700 text-[11px] font-mono">
+          </div>
+
+          <!-- SVG Test Tube Apparatus -->
+          <svg id="test-tube-svg" class="w-40 h-52 overflow-visible" viewBox="0 0 140 210">
+            <defs>
+              <clipPath id="tubeInteriorClip">
+                <path d="M 48 24 L 92 24 L 92 156 A 22 22 0 0 1 48 156 Z" />
+              </clipPath>
+              <linearGradient id="glassShine" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.22)" />
+                <stop offset="25%" stop-color="rgba(255,255,255,0.04)" />
+                <stop offset="80%" stop-color="rgba(255,255,255,0.02)" />
+                <stop offset="100%" stop-color="rgba(255,255,255,0.16)" />
+              </linearGradient>
+            </defs>
+
+            <!-- Gas / Vapor plume above tube (for NH3 or CO gas) -->
+            <g id="svg-vapor-group" class="hidden">
+              <path d="M 60 16 Q 54 6 62 -2" stroke="rgba(148,163,184,0.5)" stroke-width="2" fill="none" stroke-linecap="round" />
+              <path d="M 72 14 Q 78 4 70 -5" stroke="rgba(148,163,184,0.6)" stroke-width="2" fill="none" stroke-linecap="round" />
+              <path d="M 82 17 Q 88 8 80 0" stroke="rgba(148,163,184,0.45)" stroke-width="2" fill="none" stroke-linecap="round" />
+            </g>
+
+            <!-- CO Blue Flame at mouth of tube (when ignited/tested) -->
+            <g id="svg-co-flame" class="hidden flame-anim">
+              <path d="M 70 22 C 62 12, 64 2, 70 -6 C 76 2, 78 12, 70 22 Z" fill="#38bdf8" opacity="0.85" />
+              <path d="M 70 20 C 66 13, 67 6, 70 1 C 73 6, 74 13, 70 20 Z" fill="#e0f2fe" />
+            </g>
+
+            <!-- Clipped Contents Inside Tube -->
+            <g clip-path="url(#tubeInteriorClip)">
+              <!-- Liquid Fill Rect -->
+              <rect id="svg-liquid-rect" x="46" y="180" width="48" height="0" fill="rgba(186, 230, 253, 0.22)" class="transition-all duration-500" />
+
+              <!-- Precipitate / Charring Layer at Bottom -->
+              <path id="svg-ppt-layer" d="M 48 158 L 92 158 L 92 180 L 48 180 Z" fill="transparent" class="transition-all duration-500" />
+
+              <!-- Undissolved Solid Granules -->
+              <g id="svg-solid-granules" class="hidden">
+                <circle cx="62" cy="171" r="2.5" fill="#f8fafc" opacity="0.9" />
+                <circle cx="70" cy="173" r="3" fill="#e2e8f0" opacity="0.9" />
+                <circle cx="77" cy="170" r="2.4" fill="#f8fafc" opacity="0.85" />
+                <circle cx="66" cy="168" r="2" fill="#cbd5e1" opacity="0.8" />
+                <circle cx="74" cy="174" r="2.2" fill="#f1f5f9" opacity="0.9" />
+              </g>
+
+              <!-- Effervescence Bubbles -->
+              <g id="svg-bubbles-group" class="hidden">
+                <circle cx="60" cy="162" r="2.2" fill="rgba(255,255,255,0.8)" class="bubble-anim" />
+                <circle cx="70" cy="166" r="2.8" fill="rgba(255,255,255,0.85)" class="bubble-anim-delay-1" />
+                <circle cx="80" cy="160" r="2" fill="rgba(255,255,255,0.75)" class="bubble-anim-delay-2" />
+                <circle cx="65" cy="155" r="1.8" fill="rgba(255,255,255,0.7)" class="bubble-anim-delay-2" />
+                <circle cx="75" cy="158" r="2.3" fill="rgba(255,255,255,0.8)" class="bubble-anim" />
+              </g>
+            </g>
+
+            <!-- Glass Tube Outline & Rim -->
+            <path d="M 48 22 L 48 156 A 22 22 0 0 0 92 156 L 92 22" fill="url(#glassShine)" stroke="#64748b" stroke-width="2.5" />
+            <rect x="44" y="18" width="52" height="5" rx="2.5" fill="#475569" stroke="#94a3b8" stroke-width="1.2" />
+
+            <!-- Burner Flame Under Tube (Bunsen / Dry Heat Flame) -->
+            <g id="svg-burner-flame" class="hidden flame-anim">
+              <path id="svg-flame-outer" d="M 70 183 C 58 193, 60 205, 70 209 C 80 205, 82 193, 70 183 Z" fill="#f97316" opacity="0.9" />
+              <path id="svg-flame-inner" d="M 70 188 C 64 194, 65 202, 70 205 C 75 202, 76 194, 70 188 Z" fill="#fde047" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- Contents Summary Bar -->
+        <div class="mt-2.5 px-3 py-2 rounded-xl bg-[#0a0f1a] border border-bench-border text-xs font-mono text-slate-300">
+          <span class="text-slate-500">Contents:</span> <span id="tube-contents-text">Empty dry tube</span>
+        </div>
+
+        <!-- Live Sensory Observation Box -->
+        <div id="tube-observation-box" class="mt-2 px-3.5 py-2.5 rounded-xl bg-bench-panel border border-bench-border text-xs text-slate-200 leading-relaxed min-h-[54px] flex items-center">
+          Empty dry test tube ready. Dispense unknown solid or reagents to begin.
+        </div>
+      </div>
+
+      <!-- BENCH TOOLS & THERMAL CONTROLS -->
+      <div class="mt-4 pt-3 border-t border-bench-border">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+          Bench Tools & Thermal Controls
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <button onclick="performAction('shake')" class="py-2 px-2.5 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-600/60 text-slate-200 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95">
+            <span>🔄</span> Shake / Dissolve
+          </button>
+          <button onclick="performAction('warm')" class="py-2 px-2.5 rounded-xl bg-amber-950/60 hover:bg-amber-900/70 border border-amber-500/40 text-amber-300 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95">
+            <span>🕯️</span> Warm Gently
+          </button>
+          <button onclick="performAction('boil')" class="py-2 px-2.5 rounded-xl bg-orange-950/60 hover:bg-orange-900/70 border border-orange-500/40 text-orange-300 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95">
+            <span>🔥</span> Boil / Strong Heat
+          </button>
+          <button onclick="performAction('melt')" class="py-2 px-2.5 rounded-xl bg-purple-950/60 hover:bg-purple-900/70 border border-purple-500/40 text-purple-300 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95" title="Biuret Prep: Melt unknown solid on flame and let resolidify">
+            <span>🧪</span> Melt & Resolidify
+          </button>
+          <button onclick="performAction('flameTest')" class="py-2 px-2.5 rounded-xl bg-yellow-950/60 hover:bg-yellow-900/70 border border-yellow-500/40 text-yellow-300 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95" title="Basic Radical Flame / Dry Heat Test">
+            <span>✨</span> Dry Heat / Flame
+          </button>
+          <button onclick="performAction('cool')" class="py-2 px-2.5 rounded-xl bg-sky-950/60 hover:bg-sky-900/70 border border-sky-500/40 text-sky-300 text-xs font-medium flex items-center justify-center gap-1.5 transition active:scale-95">
+            <span>❄️</span> Cool Under Tap
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT PANEL: BENCH LOG, GUIDED HINTS & FINAL DEDUCTION (3 cols on lg) -->
+    <section class="lg:col-span-3 flex flex-col gap-4">
+
+      <!-- GUIDED STUDY ASSISTANT (Visible ONLY in Guided Study Mode) -->
+      <div id="guided-hint-card" class="hidden bg-emerald-950/30 border border-emerald-500/40 rounded-2xl p-4 shadow-xl">
+        <div class="flex items-center justify-between mb-1.5">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+            <span>🧭</span> Scheme Navigator (Guided)
+          </h3>
+          <span id="guided-step-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">
+            Step 1
+          </span>
+        </div>
+        <p id="guided-hint-text" class="text-xs text-slate-200 leading-relaxed">
+          Start with the <strong>Solubility & Litmus Test</strong>: Add 1 spatula of Unknown Solid + 2 mL Distilled H₂O, click <strong>Shake / Dissolve</strong>, then dip <strong>Blue & Red Litmus</strong>.
+        </p>
+      </div>
+
+      <!-- BENCH LOG -->
+      <div class="bg-bench-card border border-bench-border rounded-2xl p-4 shadow-xl flex flex-col h-[340px]">
+        <div class="flex items-center justify-between pb-2.5 mb-2.5 border-b border-bench-border">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
+            <span>📋</span> Bench Log
+          </h2>
+          <button onclick="clearBenchLog()" class="text-[11px] text-slate-500 hover:text-slate-300 transition">
+            Clear
+          </button>
+        </div>
+
+        <div id="bench-log-container" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs">
+          <!-- Log entries injected here -->
+        </div>
+      </div>
+
+      <!-- FINAL UNKNOWN DEDUCTION -->
+      <div class="bg-bench-card border border-bench-border rounded-2xl p-4 shadow-xl">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">
+          Final Unknown Deduction
+        </h2>
+        <p class="text-[11px] text-slate-400 mb-3">
+          Identify the solid unknown from the 15 scheme possibilities:
+        </p>
+
+        <select id="deduction-select" class="w-full bg-[#0a0f1a] border border-slate-700 focus:border-emerald-500 rounded-xl px-3 py-2.5 text-xs text-slate-200 mb-3 focus:outline-none">
+          <option value="">-- Select Identified Solid --</option>
+          <optgroup label="1. Acidic Solids (Litmus → Red, Na₂CO₃ → Eff.)">
+            <option value="oxalic_acid">Oxalic acid</option>
+            <option value="tartaric_acid">Tartaric acid</option>
+          </optgroup>
+          <optgroup label="2. Neutral Amide (FeCl₃ → Blank, Biuret → +ve)">
+            <option value="urea">Urea</option>
+          </optgroup>
+          <optgroup label="3. Formate Salts (FeCl₃ → Blood Red, KMnO₄ → Decolorized + Brown ppt)">
+            <option value="sodium_formate">Sodium formate (Na⁺)</option>
+            <option value="potassium_formate">Potassium formate (K⁺)</option>
+            <option value="ammonium_formate">Ammonium formate (NH₄⁺)</option>
+          </optgroup>
+          <optgroup label="4. Acetate Salts (FeCl₃ → Blood Red, KMnO₄ → No Change)">
+            <option value="sodium_acetate">Sodium acetate (Na⁺)</option>
+            <option value="potassium_acetate">Potassium acetate (K⁺)</option>
+            <option value="ammonium_acetate">Ammonium acetate (NH₄⁺)</option>
+          </optgroup>
+          <optgroup label="5. Oxalate Salts (FeCl₃ → Lemon Yellow, Conc. H₂SO₄ → Clear + Eff.)">
+            <option value="sodium_oxalate">Sodium oxalate (Na⁺)</option>
+            <option value="potassium_oxalate">Potassium oxalate (K⁺)</option>
+            <option value="ammonium_oxalate">Ammonium oxalate (NH₄⁺)</option>
+          </optgroup>
+          <optgroup label="6. Tartarate Salts (FeCl₃ → Lemon Yellow, Conc. H₂SO₄ → Charring)">
+            <option value="sodium_tartarate">Sodium tartarate (Na⁺)</option>
+            <option value="potassium_tartarate">Potassium tartarate (K⁺)</option>
+            <option value="ammonium_tartarate">Ammonium tartarate (NH₄⁺)</option>
+          </optgroup>
+        </select>
+
+        <button onclick="submitLabReport()" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-lg shadow-emerald-950/60 transition active:scale-[0.99]">
+          Submit Lab Report & Grade
+        </button>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- LAB REPORT GRADE MODAL -->
+  <div id="grade-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-bench-card border border-slate-700 rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl">
+      <div class="flex items-start justify-between gap-3 pb-3 border-b border-bench-border">
+        <div>
+          <span id="grade-badge" class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold mb-1"></span>
+          <h3 id="grade-title" class="text-lg font-bold text-white"></h3>
+        </div>
+        <button onclick="closeGradeModal()" class="text-slate-400 hover:text-white text-lg leading-none px-2 py-1">✕</button>
+      </div>
+
+      <div id="grade-body" class="py-4 space-y-3 text-xs text-slate-300 leading-relaxed max-h-[65vh] overflow-y-auto">
+      </div>
+
+      <div class="pt-3 border-t border-bench-border flex flex-wrap justify-end gap-2">
+        <button onclick="closeGradeModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition">
+          Keep Inspecting Tube
+        </button>
+        <button onclick="closeGradeModal(); assignNewUnknown();" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition">
+          Next Random Unknown →
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEME REFERENCE MODAL -->
+  <div id="scheme-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-bench-card border border-slate-700 rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl max-h-[88vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-bench-border">
+        <div>
+          <h3 class="text-base font-bold text-white">Organic Solid Unknown Identification Scheme</h3>
+          <p class="text-xs text-slate-400">15 Solid Compounds & Exact Bench Recipes</p>
+        </div>
+        <button onclick="toggleSchemeModal(false)" class="text-slate-400 hover:text-white text-lg px-2 py-1">✕</button>
+      </div>
+
+      <div class="py-4 overflow-y-auto space-y-4 text-xs text-slate-300">
+        <!-- Step 1 -->
+        <div class="p-3 rounded-xl bg-bench-panel border border-bench-border">
+          <div class="font-bold text-sky-400 mb-1">1. Solubility & Litmus Paper Test (All 15 Solids are Soluble in H₂O)</div>
+          <p>Dissolve 1 spatula unknown in 2 mL Distilled H₂O & dip Blue/Red Litmus:</p>
+          <ul class="list-disc list-inside mt-1 space-y-1 text-slate-300">
+            <li><strong class="text-rose-300">Acidic (Blue Litmus → Red):</strong> Oxalic acid or Tartaric acid → Confirm with <strong>Solid Na₂CO₃</strong> (brisk effervescence) and differentiate via <strong>Conc. H₂SO₄ on hot</strong>.</li>
+            <li><strong class="text-emerald-300">Neutral (No Litmus change):</strong> Urea or Salts of acids (Na⁺, K⁺, NH₄⁺ formate, acetate, oxalate, tartarate) → Proceed to <strong>Action of FeCl₃</strong>.</li>
+          </ul>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-3 rounded-xl bg-bench-panel border border-bench-border">
+          <div class="font-bold text-amber-400 mb-1">2. Action of FeCl₃ (For Neutral Unknowns)</div>
+          <p class="font-mono text-[11px] text-slate-400 mb-1.5">Recipe: 2 spatulas unknown + 2 mL H₂O + 3 drops FeCl₃</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="p-2.5 rounded-lg bg-rose-950/40 border border-rose-500/30">
+              <div class="font-bold text-rose-300">Blood Red Color</div>
+              <p class="mt-0.5">Formate or Acetate salts.<br><strong>Diff: Alkaline KMnO₄</strong><br>• Decolorization + Brown ppt → <strong>Formate</strong> (Confirm: HgCl₂ + dil. HCl + boil → white ppt)<br>• No change → <strong>Acetate</strong></p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-yellow-950/40 border border-yellow-500/30">
+              <div class="font-bold text-yellow-300">Lemon Yellow Color</div>
+              <p class="mt-0.5">Oxalate or Tartarate salts.<br><strong>Diff: Conc. H₂SO₄ on hot</strong><br>• Eff. & clear solution → <strong>Oxalate</strong><br>• Eff. & charring → <strong>Tartarate</strong> (Confirm: Fenton's test → violet)</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-slate-800/70 border border-slate-600/40">
+              <div class="font-bold text-slate-200">No Action (Blank)</div>
+              <p class="mt-0.5"><strong>Urea</strong>.<br><strong>Confirm: Biuret Test</strong><br>1 sp dry unknown → Melt & resolidify → Cool → 2–3 mL 10% NaOH + 1–2 drops CuSO₄ → <strong>Purple color</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-3 rounded-xl bg-bench-panel border border-bench-border">
+          <div class="font-bold text-emerald-400 mb-1">3. Basic Radical Identification (For all 12 Salts: Na⁺, K⁺, NH₄⁺)</div>
+          <ul class="list-disc list-inside space-y-1">
+            <li><strong>Cold 30% NaOH Test:</strong> 2 spatulas solid + 2 mL 30% NaOH (on cold / shake) → Pungent <strong>Ammonia (NH₃) odor</strong> (turns red litmus blue) = <strong>NH₄⁺</strong>. No ammonia odor = <strong>Na⁺ or K⁺</strong>.</li>
+            <li><strong>Dry Heat / Flame Test:</strong> Heat dry unknown strongly on flame → <strong>Golden yellow flame</strong> = <strong>Na⁺</strong>; <strong>Violet (lilac) flame</strong> = <strong>K⁺</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. DATABASE OF ALL 15 ORGANIC SOLID UNKNOWNS (EXACT SLIDE RULES)
+    // =========================================================================
+    const SOLID_COMPOUNDS = [
+      {
+        id: 'oxalic_acid',
+        name: 'Oxalic acid',
+        category: 'acid', // 'acid' | 'urea' | 'salt'
+        acidRadical: 'oxalate',
+        basicRadical: null,
+        formula: '(COOH)₂·2H₂O',
+        pathway: 'Soluble in H₂O → Blue Litmus turns Red (Acidic) → Brisk effervescence with Na₂CO₃ → Conc. H₂SO₄ on hot gives effervescence (CO + CO₂) with a CLEAR solution (no charring).'
+      },
+      {
+        id: 'tartaric_acid',
+        name: 'Tartaric acid',
+        category: 'acid',
+        acidRadical: 'tartarate',
+        basicRadical: null,
+        formula: 'C₄H₆O₆',
+        pathway: 'Soluble in H₂O → Blue Litmus turns Red (Acidic) → Brisk effervescence with Na₂CO₃ → Conc. H₂SO₄ on hot gives effervescence + BLACK/BROWN CHARRING (burnt sugar odor). Confirmed by Fenton’s test (violet color).'
+      },
+      {
+        id: 'urea',
+        name: 'Urea',
+        category: 'urea',
+        acidRadical: null,
+        basicRadical: null,
+        formula: 'CO(NH₂)₂',
+        pathway: 'Soluble in H₂O → Neutral to litmus → Action of FeCl₃ gives No Action (Blank) → Confirmed by Biuret test (melt & resolidify dry solid, cool, add 10% NaOH + CuSO₄ → Purple/Violet color).'
+      },
+      // FORMATE SALTS
+      {
+        id: 'sodium_formate',
+        name: 'Sodium formate',
+        category: 'salt',
+        acidRadical: 'formate',
+        basicRadical: 'Na+',
+        formula: 'HCOONa',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ is decolorized with Brown MnO₂ ppt → Confirmed by HgCl₂ (+ dil. HCl, boil → white ppt) & Conc. H₂SO₄ on cold (CO gas burns with blue flame) → Basic radical: No NH₃ with cold 30% NaOH; Golden yellow flame in dry heat test (Na⁺).'
+      },
+      {
+        id: 'potassium_formate',
+        name: 'Potassium formate',
+        category: 'salt',
+        acidRadical: 'formate',
+        basicRadical: 'K+',
+        formula: 'HCOOK',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ is decolorized with Brown MnO₂ ppt → Confirmed by HgCl₂ (+ dil. HCl, boil → white ppt) → Basic radical: No NH₃ with cold 30% NaOH; Violet flame in dry heat test (K⁺).'
+      },
+      {
+        id: 'ammonium_formate',
+        name: 'Ammonium formate',
+        category: 'salt',
+        acidRadical: 'formate',
+        basicRadical: 'NH4+',
+        formula: 'HCOONH₄',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ is decolorized with Brown MnO₂ ppt → Confirmed by HgCl₂ (+ dil. HCl, boil → white ppt) → Basic radical: Pungent Ammonia (NH₃) odor on cold with 30% NaOH (NH₄⁺).'
+      },
+      // ACETATE SALTS
+      {
+        id: 'sodium_acetate',
+        name: 'Sodium acetate',
+        category: 'salt',
+        acidRadical: 'acetate',
+        basicRadical: 'Na+',
+        formula: 'CH₃COONa',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ shows NO decolorization & NO brown ppt → HgCl₂ test negative (no white ppt) → Basic radical: No NH₃ with cold 30% NaOH; Golden yellow flame (Na⁺).'
+      },
+      {
+        id: 'potassium_acetate',
+        name: 'Potassium acetate',
+        category: 'salt',
+        acidRadical: 'acetate',
+        basicRadical: 'K+',
+        formula: 'CH₃COOK',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ shows NO decolorization & NO brown ppt → HgCl₂ test negative → Basic radical: No NH₃ with cold 30% NaOH; Violet flame (K⁺).'
+      },
+      {
+        id: 'ammonium_acetate',
+        name: 'Ammonium acetate',
+        category: 'salt',
+        acidRadical: 'acetate',
+        basicRadical: 'NH4+',
+        formula: 'CH₃COONH₄',
+        pathway: 'Neutral to litmus → FeCl₃ gives Blood Red color → Alkaline KMnO₄ shows NO decolorization & NO brown ppt → HgCl₂ test negative → Basic radical: Pungent Ammonia (NH₃) odor on cold with 30% NaOH (NH₄⁺).'
+      },
+      // OXALATE SALTS
+      {
+        id: 'sodium_oxalate',
+        name: 'Sodium oxalate',
+        category: 'salt',
+        acidRadical: 'oxalate',
+        basicRadical: 'Na+',
+        formula: 'Na₂C₂O₄',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence and a CLEAR solution (no charring) → Basic radical: No NH₃ with cold 30% NaOH; Golden yellow flame (Na⁺).'
+      },
+      {
+        id: 'potassium_oxalate',
+        name: 'Potassium oxalate',
+        category: 'salt',
+        acidRadical: 'oxalate',
+        basicRadical: 'K+',
+        formula: 'K₂C₂O₄',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence and a CLEAR solution (no charring) → Basic radical: No NH₃ with cold 30% NaOH; Violet flame (K⁺).'
+      },
+      {
+        id: 'ammonium_oxalate',
+        name: 'Ammonium oxalate',
+        category: 'salt',
+        acidRadical: 'oxalate',
+        basicRadical: 'NH4+',
+        formula: '(NH₄)₂C₂O₄',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence and a CLEAR solution (no charring) → Basic radical: Pungent Ammonia (NH₃) odor on cold with 30% NaOH (NH₄⁺).'
+      },
+      // TARTARATE SALTS
+      {
+        id: 'sodium_tartarate',
+        name: 'Sodium tartarate',
+        category: 'salt',
+        acidRadical: 'tartarate',
+        basicRadical: 'Na+',
+        formula: 'Na₂C₄H₄O₆',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence + BLACK/BROWN CHARRING → Confirmed by Fenton’s test (violet color) → Basic radical: Golden yellow flame (Na⁺).'
+      },
+      {
+        id: 'potassium_tartarate',
+        name: 'Potassium tartarate',
+        category: 'salt',
+        acidRadical: 'tartarate',
+        basicRadical: 'K+',
+        formula: 'K₂C₄H₄O₆',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence + BLACK/BROWN CHARRING → Confirmed by Fenton’s test (violet color) → Basic radical: Violet flame (K⁺).'
+      },
+      {
+        id: 'ammonium_tartarate',
+        name: 'Ammonium tartarate',
+        category: 'salt',
+        acidRadical: 'tartarate',
+        basicRadical: 'NH4+',
+        formula: '(NH₄)₂C₄H₄O₆',
+        pathway: 'Neutral to litmus → FeCl₃ gives Lemon Yellow color → Conc. H₂SO₄ on hot gives effervescence + BLACK/BROWN CHARRING → Confirmed by Fenton’s test (violet color) → Basic radical: Pungent Ammonia (NH₃) odor on cold with 30% NaOH (NH₄⁺).'
+      }
+    ];
+
+    // =========================================================================
+    // 2. REAGENT BOTTLES CONFIGURATION
+    // =========================================================================
+    const LIQUID_REAGENTS = [
+      { id: 'h2o', name: 'Distilled H₂O', dot: 'bg-sky-400', tag: 'Solvent' },
+      { id: 'fecl3', name: 'FeCl₃ Solution', dot: 'bg-amber-500', tag: 'Neutral Group' },
+      { id: 'kmno4', name: 'Alkaline KMnO₄', dot: 'bg-fuchsia-500', tag: 'Formate/Acetate' },
+      { id: 'h2so4', name: 'Conc. H₂SO₄', dot: 'bg-rose-500', tag: 'Dry Tube Test' },
+      { id: 'naoh10', name: '10% NaOH', dot: 'bg-slate-300', tag: 'Biuret Test' },
+      { id: 'naoh30', name: '30% NaOH', dot: 'bg-orange-400', tag: 'NH₄⁺ / Fenton' },
+      { id: 'cuso4', name: '1% CuSO₄ Solution', dot: 'bg-blue-400', tag: 'Biuret Test' },
+      { id: 'hgcl2', name: 'HgCl₂ Solution', dot: 'bg-indigo-300', tag: 'Formate Conf.' },
+      { id: 'hcl', name: 'Dil. HCl', dot: 'bg-teal-400', tag: 'Acidify Salt' },
+      { id: 'feso4', name: 'Fresh FeSO₄ Solution', dot: 'bg-emerald-400', tag: 'Fenton’s Test' },
+      { id: 'h2o2', name: 'H₂O₂ (3% Peroxide)', dot: 'bg-cyan-300', tag: 'Fenton’s Test' }
+    ];
+
+    // =========================================================================
+    // 3. APPLICATION STATE
+    // =========================================================================
+    let appState = {
+      mode: 'exam', // 'guided' | 'exam' | 'sandbox'
+      vialCode: 'S-402',
+      currentUnknown: null,
+      activeTubeIdx: 0,
+      actionsCount: 0,
+      tubes: [],
+      log: [],
+      discovered: {
+        litmus: null,        // 'acidic' | 'neutral'
+        na2co3Eff: false,
+        fecl3Result: null,   // 'blood_red' | 'lemon_yellow' | 'blank'
+        kmno4Result: null,   // 'decolorized' | 'no_change'
+        h2so4Result: null,   // 'cold_co' | 'hot_clear' | 'hot_char'
+        biuretPositive: false,
+        fentonPositive: false,
+        hgcl2Positive: false,
+        nh4Odor: null,       // true | false
+        flameColor: null     // 'golden_yellow' | 'violet' | 'none'
+      }
+    };
+
+    function createEmptyTube(num) {
+      return {
+        num,
+        unknownSpatulas: 0,
+        na2co3Spatulas: 0,
+        reagents: {}, // { h2o: 2.0, fecl3: 0.15, ... } in mL (1 drop = 0.05 mL)
+        volumeMl: 0,
+        isDissolved: false,
+        isMoltenResolidified: false,
+        tempState: 'Room Temp', // 'Room Temp' | 'Warm' | 'Boiling' | 'Dry Heated' | 'Cooled'
+        statusBadge: 'Clean & Dry',
+        liquidColor: 'rgba(186, 230, 253, 0.22)',
+        pptColor: 'transparent',
+        pptHeight: 0,
+        showBubbles: false,
+        showVapor: false,
+        showCoFlame: false,
+        burnerFlameType: null, // null | 'standard' | 'golden' | 'violet'
+        litmusResult: null,
+        observation: 'Empty dry test tube ready. Dispense unknown solid or reagents to begin.'
+      };
+    }
+
+    // =========================================================================
+    // 4. INITIALIZATION & UI RENDERING
+    // =========================================================================
+    function initApp() {
+      renderReagentBottles();
+      populateSandboxDropdown();
+      appState.tubes = [createEmptyTube(1), createEmptyTube(2), createEmptyTube(3)];
+      assignNewUnknown(true);
+    }
+
+    function renderReagentBottles() {
+      const container = document.getElementById('reagent-bottles-list');
+      container.innerHTML = LIQUID_REAGENTS.map(r => `
+        <div class="flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-bench-panel border border-bench-border hover:border-slate-700 transition">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2 h-2 rounded-full ${r.dot} shrink-0"></span>
+            <div class="truncate">
+              <div class="text-xs font-medium text-slate-200 truncate">${r.name}</div>
+              <div class="text-[10px] font-mono text-slate-500">${r.tag}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button onclick="addLiquid('${r.id}', 'drop', 1)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600/60 text-[11px] font-mono text-slate-200 transition active:scale-95">
+              +1 drop
+            </button>
+            <button onclick="addLiquid('${r.id}', 'ml', 1)" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600/60 text-[11px] font-mono text-sky-300 transition active:scale-95">
+              +1 mL
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function populateSandboxDropdown() {
+      const sel = document.getElementById('sandbox-compound-select');
+      sel.innerHTML = SOLID_COMPOUNDS.map(c => `<option value="${c.id}">${c.name} (${c.formula})</option>`).join('');
+    }
+
+    function setMode(newMode) {
+      appState.mode = newMode;
+
+      const btnGuided = document.getElementById('mode-guided');
+      const btnExam = document.getElementById('mode-exam');
+      const btnSandbox = document.getElementById('mode-sandbox');
+      const hintCard = document.getElementById('guided-hint-card');
+      const sandboxWrap = document.getElementById('sandbox-selector-wrap');
+      const vialBadge = document.getElementById('vial-badge');
+      const vialText = document.getElementById('vial-id-text');
+      const modeInstr = document.getElementById('mode-instruction');
+
+      // Reset tab classes
+      [btnGuided, btnExam, btnSandbox].forEach(b => {
+        b.className = 'px-3 py-1.5 rounded-lg text-xs font-medium transition-all text-slate-400 hover:text-white';
+      });
+
+      hintCard.classList.add('hidden');
+      sandboxWrap.classList.add('hidden');
+      sandboxWrap.classList.remove('flex');
+
+      if (newMode === 'guided') {
+        btnGuided.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-emerald-600 text-white shadow-md shadow-emerald-950/60';
+        hintCard.classList.remove('hidden');
+        vialBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 font-mono font-semibold';
+        vialText.textContent = `GUIDED VIAL # ${appState.vialCode}`;
+        modeInstr.textContent = 'Guided Study: Follow the step-by-step scheme navigator & exact mL/drop recipes.';
+        updateGuidedNavigator();
+      } else if (newMode === 'exam') {
+        btnExam.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-rose-600 text-white shadow-md shadow-rose-950/60';
+        vialBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-rose-950/70 border border-rose-500/40 text-rose-300 font-mono font-semibold';
+        vialText.textContent = `UNKNOWN VIAL # ${appState.vialCode}`;
+        modeInstr.textContent = 'Real Bench: Measure exact mLs, drops & spatulas from raw bottles without scheme hints.';
+      } else {
+        btnSandbox.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-amber-600 text-white shadow-md shadow-amber-950/60';
+        sandboxWrap.classList.remove('hidden');
+        sandboxWrap.classList.add('flex');
+        vialBadge.className = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-950/70 border border-amber-500/40 text-amber-300 font-mono font-semibold';
+        vialText.textContent = `SANDBOX: ${appState.currentUnknown.name.toUpperCase()}`;
+        modeInstr.textContent = 'Free Sandbox: Pick any of the 15 solids directly to rehearse its reactions.';
+        document.getElementById('sandbox-compound-select').value = appState.currentUnknown.id;
+      }
+    }
+
+    function assignNewUnknown(isInitial = false) {
+      const randomCompound = SOLID_COMPOUNDS[Math.floor(Math.random() * SOLID_COMPOUNDS.length)];
+      appState.currentUnknown = randomCompound;
+      appState.vialCode = 'S-' + Math.floor(100 + Math.random() * 899);
+      appState.actionsCount = 0;
+      appState.tubes = [createEmptyTube(1), createEmptyTube(2), createEmptyTube(3)];
+      appState.activeTubeIdx = 0;
+      appState.discovered = {
+        litmus: null,
+        na2co3Eff: false,
+        fecl3Result: null,
+        kmno4Result: null,
+        h2so4Result: null,
+        biuretPositive: false,
+        fentonPositive: false,
+        hgcl2Positive: false,
+        nh4Odor: null,
+        flameColor: null
+      };
+
+      document.getElementById('deduction-select').value = '';
+      document.getElementById('sandbox-compound-select').value = randomCompound.id;
+
+      appState.log = [];
+      addLogEntry(`New Solid Unknown Vial #${appState.vialCode} assigned on bench.`, 'system');
+
+      setMode(appState.mode);
+      switchTube(0, true);
+      updateCounters();
+    }
+
+    function selectSandboxCompound(compoundId) {
+      const found = SOLID_COMPOUNDS.find(c => c.id === compoundId);
+      if (!found) return;
+      appState.currentUnknown = found;
+      appState.tubes = [createEmptyTube(1), createEmptyTube(2), createEmptyTube(3)];
+      appState.actionsCount = 0;
+      appState.discovered = {
+        litmus: null, na2co3Eff: false, fecl3Result: null, kmno4Result: null,
+        h2so4Result: null, biuretPositive: false, fentonPositive: false,
+        hgcl2Positive: false, nh4Odor: null, flameColor: null
+      };
+      document.getElementById('vial-id-text').textContent = `SANDBOX: ${found.name.toUpperCase()}`;
+      addLogEntry(`Sandbox compound switched to ${found.name} (${found.formula}). All tubes reset.`, 'system');
+      renderActiveTube();
+      updateCounters();
+    }
+
+    function switchTube(idx, silent = false) {
+      appState.activeTubeIdx = idx;
+      [0, 1, 2].forEach(i => {
+        const tab = document.getElementById(`tab-tube-${i}`);
+        if (i === idx) {
+          tab.className = 'px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 transition';
+        } else {
+          tab.className = 'px-3.5 py-1.5 rounded-xl text-xs font-medium bg-bench-panel text-slate-400 border border-bench-border hover:text-slate-200 transition';
+        }
+      });
+
+      document.querySelectorAll('.active-tube-num').forEach(el => el.textContent = idx + 1);
+      document.getElementById('status-active-tube').textContent = `#${idx + 1}`;
+      renderActiveTube();
+    }
+
+    function resetActiveTube() {
+      const idx = appState.activeTubeIdx;
+      appState.tubes[idx] = createEmptyTube(idx + 1);
+      addLogEntry(`Tube #${idx + 1} washed, dried, and reset.`, 'neutral');
+      renderActiveTube();
+    }
+
+    function updateCounters() {
+      document.getElementById('status-actions-count').textContent = appState.actionsCount;
+    }
+
+    function addLogEntry(text, type = 'neutral') {
+      const stepNum = appState.log.length + 1;
+      appState.log.unshift({ stepNum, text, type });
+      const container = document.getElementById('bench-log-container');
+
+      const styleMap = {
+        system: 'bg-emerald-950/35 border-emerald-500/35 text-emerald-300',
+        positive: 'bg-amber-950/35 border-amber-500/40 text-amber-200',
+        alert: 'bg-rose-950/35 border-rose-500/40 text-rose-200',
+        neutral: 'bg-bench-panel border-bench-border text-slate-300'
+      };
+
+      container.innerHTML = appState.log.map(item => `
+        <div class="p-2.5 rounded-xl border ${styleMap[item.type] || styleMap.neutral} leading-relaxed">
+          <span class="font-mono text-[10px] opacity-60 mr-1.5">#${item.stepNum}</span>
+          <span>${item.text}</span>
+        </div>
+      `).join('');
+    }
+
+    function clearBenchLog() {
+      appState.log = [];
+      document.getElementById('bench-log-container').innerHTML = '';
+    }
+
+    // =========================================================================
+    // 5. BENCH INTERACTIONS & EXACT CHEMICAL ENGINE
+    // =========================================================================
+    function getActiveTube() {
+      return appState.tubes[appState.activeTubeIdx];
+    }
+
+    function addSolid(type, spatulas) {
+      const tube = getActiveTube();
+      appState.actionsCount++;
+      updateCounters();
+
+      if (type === 'unknown') {
+        if (tube.isMoltenResolidified && tube.volumeMl === 0) {
+          tube.isMoltenResolidified = false;
+        }
+        tube.unknownSpatulas += spatulas;
+        if (tube.volumeMl === 0) {
+          tube.statusBadge = 'Solid Sample';
+          tube.observation = `Added ${spatulas} spatula(s) of Unknown Solid into dry Tube #${tube.num}. Ready for solubility test, dry Conc. H₂SO₄ test, Biuret melt, or Flame test.`;
+        } else {
+          tube.isDissolved = false;
+          tube.observation = `Added ${spatulas} spatula(s) of Unknown Solid to liquid in Tube #${tube.num}. Shake to dissolve completely.`;
+        }
+        addLogEntry(`Tube #${tube.num}: Added +${spatulas} spatula(s) Unknown Solid.`, 'neutral');
+      } else if (type === 'na2co3') {
+        tube.na2co3Spatulas += spatulas;
+        addLogEntry(`Tube #${tube.num}: Added +1 spatula Solid Na₂CO₃.`, 'neutral');
+        evaluateTubeChemistry(tube, 'add_na2co3');
+      }
+
+      renderActiveTube();
+      updateGuidedNavigator();
+    }
+
+    function addLiquid(reagentId, unit, amount) {
+      const tube = getActiveTube();
+      const reagent = LIQUID_REAGENTS.find(r => r.id === reagentId);
+      const volAdded = unit === 'ml' ? amount * 1.0 : amount * 0.05;
+
+      appState.actionsCount++;
+      updateCounters();
+
+      tube.reagents[reagentId] = +( (tube.reagents[reagentId] || 0) + volAdded ).toFixed(2);
+      tube.volumeMl = +(tube.volumeMl + volAdded).toFixed(2);
+
+      const label = unit === 'ml' ? `+${amount} mL` : `+${amount} drop`;
+      addLogEntry(`Tube #${tube.num}: Dispensed ${label} ${reagent.name}.`, 'neutral');
+
+      evaluateTubeChemistry(tube, `add_${reagentId}`);
+      renderActiveTube();
+      updateGuidedNavigator();
+    }
+
+    function dipLitmus(color) {
+      const tube = getActiveTube();
+      const u = appState.currentUnknown;
+      appState.actionsCount++;
+      updateCounters();
+
+      if (tube.volumeMl === 0) {
+        tube.observation = `Dry ${color} litmus paper touched to dry solid: No reaction on dry paper. Dissolve unknown in Distilled H₂O first!`;
+        addLogEntry(`Tube #${tube.num}: Dipped ${color} litmus into dry tube (no moisture).`, 'neutral');
+        renderActiveTube();
+        return;
+      }
+
+      const hasH2O = (tube.reagents.h2o || 0) > 0;
+      const hasNaOH = (tube.reagents.naoh10 || 0) > 0 || (tube.reagents.naoh30 || 0) > 0;
+      const hasAcid = (tube.reagents.h2so4 || 0) > 0 || (tube.reagents.hcl || 0) > 0;
+
+      // Check if testing NH3 vapors above 30% NaOH + NH4+ salt
+      if (tube.unknownSpatulas > 0 && (tube.reagents.naoh30 || 0) >= 0.5 && u.basicRadical === 'NH4+') {
+        if (color === 'red') {
+          tube.litmusResult = 'Red → Blue (NH₃ Gas)';
+          appState.discovered.nh4Odor = true;
+          tube.observation = `Moist Red Litmus held at mouth of Tube #${tube.num} turns BLUE! Confirms alkaline Ammonia (NH₃) gas evolution (NH₄⁺ radical).`;
+          addLogEntry(`Tube #${tube.num}: Red Litmus turned BLUE in evolving gas → NH₄⁺ confirmed!`, 'positive');
+        } else {
+          tube.litmusResult = 'Blue → Remains Blue';
+          tube.observation = `Blue Litmus remains Blue in the alkaline NH₃ vapor.`;
+          addLogEntry(`Tube #${tube.num}: Blue Litmus remained blue.`, 'neutral');
+        }
+        renderActiveTube();
+        updateGuidedNavigator();
+        return;
+      }
+
+      if (hasAcid) {
+        tube.litmusResult = color === 'blue' ? 'Blue → Red (Strong Mineral Acid)' : 'Red → Remains Red';
+        tube.observation = `Solution contains added mineral acid (H₂SO₄/HCl), turning litmus strongly acidic.`;
+        renderActiveTube();
+        return;
+      }
+
+      if (hasNaOH) {
+        tube.litmusResult = color === 'red' ? 'Red → Blue (Alkaline NaOH)' : 'Blue → Remains Blue';
+        tube.observation = `Solution contains added NaOH, turning litmus strongly alkaline.`;
+        renderActiveTube();
+        return;
+      }
+
+      if (tube.unknownSpatulas > 0 && hasH2O) {
+        if (u.category === 'acid') {
+          appState.discovered.litmus = 'acidic';
+          if (color === 'blue') {
+            tube.litmusResult = 'Blue → RED (Acidic)';
+            tube.observation = `Blue Litmus turns RED! The aqueous solution is ACIDIC (∴ Oxalic acid or Tartaric acid). Test with Solid Na₂CO₃ next.`;
+            addLogEntry(`Tube #${tube.num}: Blue Litmus → RED (Acidic unknown).`, 'positive');
+          } else {
+            tube.litmusResult = 'Red → Remains Red (Acidic)';
+            tube.observation = `Red Litmus remains RED. Dip Blue Litmus to confirm acidity.`;
+            addLogEntry(`Tube #${tube.num}: Red Litmus remained red.`, 'neutral');
+          }
+        } else {
+          appState.discovered.litmus = 'neutral';
+          if (color === 'blue') {
+            tube.litmusResult = 'Blue → No Change (Neutral)';
+            tube.observation = `Blue Litmus shows NO CHANGE (Neutral). May be Urea or a Salt of an acid (Formate, Acetate, Oxalate, Tartarate). Proceed to FeCl₃ test.`;
+            addLogEntry(`Tube #${tube.num}: Blue Litmus → No change (Neutral solution).`, 'positive');
+          } else {
+            tube.litmusResult = 'Red → No Change (Neutral)';
+            tube.observation = `Red Litmus shows NO CHANGE (Neutral).`;
+            addLogEntry(`Tube #${tube.num}: Red Litmus → No change (Neutral solution).`, 'positive');
+          }
+        }
+      } else {
+        tube.litmusResult = `${color === 'blue' ? 'Blue' : 'Red'} → Neutral H₂O`;
+        tube.observation = `Litmus dipped in water without unknown solid: Neutral.`;
+      }
+
+      renderActiveTube();
+      updateGuidedNavigator();
+    }
+
+    function performAction(actionType) {
+      const tube = getActiveTube();
+      const u = appState.currentUnknown;
+      appState.actionsCount++;
+      updateCounters();
+
+      // Clear transient visual effects first
+      tube.showCoFlame = false;
+      tube.burnerFlameType = null;
+
+      if (actionType === 'shake') {
+        if (tube.unknownSpatulas > 0 && tube.volumeMl > 0) {
+          tube.isDissolved = true;
+          tube.statusBadge = 'Aqueous Solution';
+        }
+        addLogEntry(`Tube #${tube.num}: Shaken thoroughly to mix/dissolve contents.`, 'neutral');
+        evaluateTubeChemistry(tube, 'shake');
+      } else if (actionType === 'warm') {
+        tube.tempState = 'Warm';
+        tube.statusBadge = 'Warmed Gently';
+        tube.burnerFlameType = 'standard';
+        addLogEntry(`Tube #${tube.num}: Warmed gently over Bunsen flame.`, 'neutral');
+        evaluateTubeChemistry(tube, 'warm');
+      } else if (actionType === 'boil') {
+        tube.tempState = 'Boiling';
+        tube.statusBadge = 'Boiled';
+        tube.burnerFlameType = 'standard';
+        addLogEntry(`Tube #${tube.num}: Heated to boiling over strong flame.`, 'neutral');
+        evaluateTubeChemistry(tube, 'boil');
+      } else if (actionType === 'melt') {
+        // Biuret Test Step 1: Melt dry unknown on flame and resolidify
+        if (tube.unknownSpatulas > 0 && tube.volumeMl === 0) {
+          tube.isMoltenResolidified = true;
+          tube.tempState = 'Molten → Resolidified';
+          tube.statusBadge = 'Molten / Resolidified';
+          tube.burnerFlameType = 'standard';
+          tube.pptColor = 'rgba(241, 245, 249, 0.85)';
+          tube.pptHeight = 14;
+          if (u.id === 'urea') {
+            tube.observation = `Unknown solid melted cleanly on flame with faint ammonia evolution (forming Biuret) and resolidified into a white crust on cooling. Now cool and add 2–3 mL 10% NaOH + 1–2 drops CuSO₄!`;
+            addLogEntry(`Tube #${tube.num}: Solid melted & resolidified cleanly (Biuret prep ready).`, 'positive');
+          } else {
+            tube.observation = `Solid heated dry on flame until fused/decomposed and resolidified. Add 10% NaOH + CuSO₄ if testing for Biuret.`;
+            addLogEntry(`Tube #${tube.num}: Dry solid heated to melt/resolidify.`, 'neutral');
+          }
+        } else if (tube.volumeMl > 0) {
+          tube.observation = `Cannot perform dry Biuret melt when liquid is already inside the tube! Reset a tube and add 1 spatula dry Unknown Solid first.`;
+          addLogEntry(`Tube #${tube.num}: Dry melt failed (tube contains liquid).`, 'alert');
+        } else {
+          tube.observation = `Tube is empty. Add 1 spatula of Unknown Solid first before melting.`;
+        }
+      } else if (actionType === 'flameTest') {
+        // Basic Radical Dry Heat / Flame Test
+        if (tube.unknownSpatulas > 0 && tube.volumeMl === 0) {
+          tube.tempState = 'Dry Flame Test';
+          tube.statusBadge = 'Flame Tested';
+          if (u.basicRadical === 'Na+') {
+            tube.burnerFlameType = 'golden';
+            appState.discovered.flameColor = 'golden_yellow';
+            tube.observation = `DRY HEAT / FLAME TEST: Intense, persistent GOLDEN YELLOW flame color observed! Confirms Sodium cation (Na⁺).`;
+            addLogEntry(`Tube #${tube.num}: Flame test → GOLDEN YELLOW flame (Na⁺ confirmed!).`, 'positive');
+          } else if (u.basicRadical === 'K+') {
+            tube.burnerFlameType = 'violet';
+            appState.discovered.flameColor = 'violet';
+            tube.observation = `DRY HEAT / FLAME TEST: Distinct VIOLET (lilac) flame color observed! Confirms Potassium cation (K⁺).`;
+            addLogEntry(`Tube #${tube.num}: Flame test → VIOLET flame (K⁺ confirmed!).`, 'positive');
+          } else if (u.basicRadical === 'NH4+') {
+            tube.burnerFlameType = 'standard';
+            tube.showVapor = true;
+            appState.discovered.flameColor = 'none';
+            tube.observation = `DRY HEAT TEST: Solid sublimes / volatilizes with white fumes and ammonia odor, giving NO persistent golden yellow or violet flame color (characteristic of NH₄⁺ or volatile organic solid).`;
+            addLogEntry(`Tube #${tube.num}: Dry heat → Sublimes with no Na⁺/K⁺ flame color.`, 'neutral');
+          } else {
+            tube.burnerFlameType = 'standard';
+            tube.showVapor = true;
+            appState.discovered.flameColor = 'none';
+            tube.observation = `DRY HEAT TEST: Organic solid decomposes/volatilizes without persistent Na⁺ (golden yellow) or K⁺ (violet) metallic flame coloration.`;
+            addLogEntry(`Tube #${tube.num}: Dry heat → No metallic Na⁺/K⁺ flame coloration.`, 'neutral');
+          }
+        } else if (tube.volumeMl > 0) {
+          tube.observation = `Dry heat / flame test requires a DRY solid sample! Use a clean, dry tube with 1 spatula of Unknown Solid.`;
+          addLogEntry(`Tube #${tube.num}: Dry heat test requires a dry tube.`, 'alert');
+        } else {
+          tube.observation = `Add 1 spatula of Unknown Solid to a dry tube before running the Dry Heat / Flame test.`;
+        }
+      } else if (actionType === 'cool') {
+        tube.tempState = 'Cooled (Tap Water)';
+        tube.burnerFlameType = null;
+        tube.showBubbles = false;
+        tube.observation = `Tube #${tube.num} cooled under running tap water to room temperature.`;
+        addLogEntry(`Tube #${tube.num}: Cooled under tap water.`, 'neutral');
+      }
+
+      renderActiveTube();
+      updateGuidedNavigator();
+    }
+
+    // =========================================================================
+    // 6. CORE REACTION EVALUATION ENGINE (MATCHING SLIDES 100%)
+    // =========================================================================
+    function evaluateTubeChemistry(tube, trigger) {
+      const u = appState.currentUnknown;
+      const r = tube.reagents;
+      const hasUnknown = tube.unknownSpatulas > 0;
+      const h2o = r.h2o || 0;
+      const fecl3 = r.fecl3 || 0;
+      const kmno4 = r.kmno4 || 0;
+      const h2so4 = r.h2so4 || 0;
+      const naoh10 = r.naoh10 || 0;
+      const naoh30 = r.naoh30 || 0;
+      const cuso4 = r.cuso4 || 0;
+      const hgcl2 = r.hgcl2 || 0;
+      const hcl = r.hcl || 0;
+      const feso4 = r.feso4 || 0;
+      const h2o2 = r.h2o2 || 0;
+
+      // Reset transient visuals before computing current state
+      tube.showBubbles = false;
+      tube.showVapor = false;
+      tube.showCoFlame = false;
+
+      // --- TEST A: Na2CO3 Effervescence Test (Strong Acids: Oxalic & Tartaric) ---
+      if (tube.na2co3Spatulas > 0 && hasUnknown && h2o > 0) {
+        if (u.category === 'acid') {
+          tube.showBubbles = true;
+          tube.isDissolved = true;
+          tube.statusBadge = 'Effervescence (CO₂)';
+          tube.liquidColor = 'rgba(224, 242, 254, 0.35)';
+          appState.discovered.na2co3Eff = true;
+          tube.observation = `BRISK EFFERVESCENCE of CO₂ gas observed upon adding Solid Na₂CO₃! Confirms a strong carboxylic acid (Oxalic acid or Tartaric acid). Differentiate using Conc. H₂SO₄ on hot.`;
+          addLogEntry(`Tube #${tube.num}: Brisk effervescence with Na₂CO₃ → Acid confirmed!`, 'positive');
+          return;
+        } else {
+          tube.isDissolved = true;
+          tube.statusBadge = 'No Effervescence';
+          tube.observation = `Solid Na₂CO₃ dissolved with NO effervescence. Unknown is neutral (not a free carboxylic acid).`;
+          addLogEntry(`Tube #${tube.num}: No effervescence with Na₂CO₃.`, 'neutral');
+          return;
+        }
+      }
+
+      // --- TEST B: Biuret Test (For Urea: Melt & Resolidify + 10% NaOH + CuSO4) ---
+      if (naoh10 > 0 && cuso4 > 0) {
+        tube.isDissolved = true;
+        if (hasUnknown && tube.isMoltenResolidified && u.id === 'urea') {
+          tube.liquidColor = 'rgba(147, 51, 234, 0.72)'; // Rich purple/violet
+          tube.statusBadge = 'Biuret +ve (Purple)';
+          appState.discovered.biuretPositive = true;
+          tube.observation = `BIURET TEST POSITIVE: Distinct PURPLE / VIOLET coloration formed! Confirms UREA.`;
+          addLogEntry(`Tube #${tube.num}: Biuret test → PURPLE color! Urea confirmed.`, 'positive');
+          return;
+        } else {
+          tube.liquidColor = 'rgba(56, 189, 248, 0.45)'; // Pale blue Cu(OH)2
+          tube.statusBadge = 'Biuret -ve (Blue)';
+          tube.observation = hasUnknown && !tube.isMoltenResolidified
+            ? `Pale blue color only. Note: Biuret test requires melting and resolidifying dry unknown FIRST before adding 10% NaOH + CuSO₄.`
+            : `BIURET TEST NEGATIVE: Pale blue color only (no purple Biuret complex).`;
+          addLogEntry(`Tube #${tube.num}: Blue Cu²⁺ solution (No purple Biuret complex).`, 'neutral');
+          return;
+        }
+      }
+
+      // --- TEST C: Fenton's Test (Tartaric acid or Tartarate salts) ---
+      // Recipe: 2 sp unknown + 2 mL H2O + 4 drops fresh FeSO4 + 4 drops H2O2 + excess 30% NaOH -> Violet color
+      if (feso4 > 0 && h2o2 > 0) {
+        tube.isDissolved = true;
+        if (naoh30 >= 0.5 && hasUnknown && u.acidRadical === 'tartarate') {
+          tube.liquidColor = 'rgba(126, 34, 206, 0.78)'; // Deep violet
+          tube.statusBadge = 'Fenton +ve (Violet)';
+          appState.discovered.fentonPositive = true;
+          tube.observation = `FENTON'S TEST POSITIVE: Intense VIOLET coloration developed after adding excess 30% NaOH! Confirms Tartaric acid / Tartarate radical.`;
+          addLogEntry(`Tube #${tube.num}: Fenton's test → VIOLET color (Tartarate confirmed!).`, 'positive');
+          return;
+        } else if (naoh30 >= 0.5) {
+          tube.liquidColor = 'rgba(180, 83, 9, 0.55)';
+          tube.pptColor = 'rgba(146, 64, 14, 0.85)';
+          tube.pptHeight = 14;
+          tube.statusBadge = 'Fenton -ve';
+          tube.observation = `FENTON'S TEST NEGATIVE: Brownish ferric hydroxide precipitate formed with no violet color (Not tartaric acid/tartarate).`;
+          addLogEntry(`Tube #${tube.num}: Fenton's test negative (no violet color).`, 'neutral');
+          return;
+        } else {
+          tube.liquidColor = 'rgba(253, 224, 71, 0.35)';
+          tube.observation = `Fresh FeSO₄ + H₂O₂ mixed with solution. Now add excess 30% NaOH (+1 to +2 mL) to check for Fenton's violet color.`;
+          return;
+        }
+      }
+
+      // --- TEST D: Action of FeCl3 (For Neutral Unknowns) ---
+      // Recipe: 2 spatulas unknown + 2 mL water + 3 drops FeCl3
+      if (fecl3 > 0) {
+        tube.isDissolved = true;
+        if (!hasUnknown || h2o === 0) {
+          tube.liquidColor = 'rgba(245, 158, 11, 0.45)';
+          tube.observation = `Pale yellowish-amber FeCl₃ reagent in tube. Ensure unknown solid is dissolved in ~2 mL Distilled H₂O first.`;
+          return;
+        }
+
+        if (u.category === 'acid') {
+          tube.liquidColor = 'rgba(253, 224, 71, 0.45)';
+          tube.observation = `Note: FeCl₃ test applies to neutral unknowns (acidic unknowns must be neutralized first; free acids give pale yellow/no characteristic neutral salt complex).`;
+          return;
+        }
+
+        if (u.acidRadical === 'formate' || u.acidRadical === 'acetate') {
+          tube.liquidColor = 'rgba(185, 28, 28, 0.85)'; // Blood red color
+          tube.statusBadge = 'Blood Red (FeCl₃)';
+          appState.discovered.fecl3Result = 'blood_red';
+          tube.observation = `ACTION OF FeCl₃: Deep BLOOD RED coloration formed! Indicates FORMATE or ACETATE salt. Differentiate using Alkaline KMnO₄.`;
+          addLogEntry(`Tube #${tube.num}: FeCl₃ → BLOOD RED color (Formate or Acetate salt).`, 'positive');
+          return;
+        } else if (u.acidRadical === 'oxalate' || u.acidRadical === 'tartarate') {
+          tube.liquidColor = 'rgba(250, 204, 21, 0.78)'; // Lemon yellow color
+          tube.statusBadge = 'Lemon Yellow (FeCl₃)';
+          appState.discovered.fecl3Result = 'lemon_yellow';
+          tube.observation = `ACTION OF FeCl₃: Bright LEMON YELLOW coloration formed! Indicates OXALATE or TARTARATE salt. Differentiate using Conc. H₂SO₄ on hot.`;
+          addLogEntry(`Tube #${tube.num}: FeCl₃ → LEMON YELLOW color (Oxalate or Tartarate salt).`, 'positive');
+          return;
+        } else if (u.id === 'urea') {
+          tube.liquidColor = 'rgba(254, 240, 138, 0.35)'; // Blank pale reagent tint
+          tube.statusBadge = 'Blank (FeCl₃)';
+          appState.discovered.fecl3Result = 'blank';
+          tube.observation = `ACTION OF FeCl₃: NO ACTION (Blank — matches plain FeCl₃ control). Indicates UREA. Confirm using the Biuret test!`;
+          addLogEntry(`Tube #${tube.num}: FeCl₃ → No action / Blank (Urea).`, 'positive');
+          return;
+        }
+      }
+
+      // --- TEST E: Alkaline KMnO4 Test (Differentiating Formate vs Acetate) ---
+      if (kmno4 > 0) {
+        tube.isDissolved = true;
+        if (hasUnknown && u.acidRadical === 'formate') {
+          tube.liquidColor = 'rgba(226, 232, 240, 0.25)'; // Decolorized liquid
+          tube.pptColor = 'rgba(120, 53, 15, 0.92)'; // Brown MnO2 precipitate
+          tube.pptHeight = 16;
+          tube.statusBadge = 'Decolorized + Brown ppt';
+          appState.discovered.kmno4Result = 'decolorized';
+          tube.observation = `ALKALINE KMnO₄ TEST: Purple KMnO₄ is DECOLORIZED with formation of a BROWN MnO₂ PRECIPITATE! Confirms FORMATE salt. Confirm further with HgCl₂ test.`;
+          addLogEntry(`Tube #${tube.num}: Alkaline KMnO₄ → Decolorized + Brown ppt (Formate salt!).`, 'positive');
+          return;
+        } else if (hasUnknown && u.acidRadical === 'acetate') {
+          tube.liquidColor = 'rgba(162, 28, 175, 0.82)'; // Stays purple/violet
+          tube.pptColor = 'transparent';
+          tube.pptHeight = 0;
+          tube.statusBadge = 'Purple (No Change)';
+          appState.discovered.kmno4Result = 'no_change';
+          tube.observation = `ALKALINE KMnO₄ TEST: NO decolorization & NO brown precipitate (solution stays purple). Confirms ACETATE salt!`;
+          addLogEntry(`Tube #${tube.num}: Alkaline KMnO₄ → No decolorization (Acetate salt!).`, 'positive');
+          return;
+        } else {
+          tube.liquidColor = 'rgba(162, 28, 175, 0.78)';
+          tube.observation = `Purple Alkaline KMnO₄ added to solution.`;
+          return;
+        }
+      }
+
+      // --- TEST F: HgCl2 Confirmatory Test (For Formate salts) ---
+      // Recipe: 1 sp unknown + 2 mL dil. HCl (for salts) + 1 mL HgCl2 + Boil -> White ppt
+      if (hgcl2 > 0) {
+        tube.isDissolved = true;
+        if (trigger === 'boil' || tube.tempState === 'Boiling') {
+          if (hasUnknown && u.acidRadical === 'formate') {
+            tube.liquidColor = 'rgba(241, 245, 249, 0.45)';
+            tube.pptColor = 'rgba(255, 255, 255, 0.95)';
+            tube.pptHeight = 18;
+            tube.statusBadge = 'White ppt (Hg₂Cl₂)';
+            appState.discovered.hgcl2Positive = true;
+            tube.observation = `HgCl₂ CONFIRMATORY TEST: Heavy WHITE PRECIPITATE (Hg₂Cl₂) formed on boiling! Confirms FORMATE radical.`;
+            addLogEntry(`Tube #${tube.num}: HgCl₂ + Boil → White precipitate (Formate confirmed!).`, 'positive');
+            return;
+          } else {
+            tube.liquidColor = 'rgba(226, 232, 240, 0.25)';
+            tube.pptColor = 'transparent';
+            tube.pptHeight = 0;
+            tube.statusBadge = 'No White ppt';
+            tube.observation = `HgCl₂ TEST NEGATIVE: Solution remains clear on boiling (no white mercurous chloride precipitate; rules out formate).`;
+            addLogEntry(`Tube #${tube.num}: HgCl₂ + Boil → No white precipitate.`, 'neutral');
+            return;
+          }
+        } else {
+          tube.liquidColor = 'rgba(226, 232, 240, 0.28)';
+          tube.observation = `HgCl₂ added${hcl > 0 ? ' (with dil. HCl)' : ''}. Click "Boil / Strong Heat" to check for white precipitate.`;
+          return;
+        }
+      }
+
+      // --- TEST G: Conc. H2SO4 Test (In dry tube: 2 sp unknown + 1-2 mL Conc. H2SO4) ---
+      if (h2so4 > 0 && h2o === 0) {
+        if (!hasUnknown) {
+          tube.liquidColor = 'rgba(226, 232, 240, 0.35)';
+          tube.observation = `Conc. H₂SO₄ in dry tube. Add 2 spatulas of Unknown Solid.`;
+          return;
+        }
+
+        const isHot = (trigger === 'warm' || trigger === 'boil' || tube.tempState === 'Warm' || tube.tempState === 'Boiling');
+
+        // Formate salts / Formic acid react ON COLD with evolution of CO gas
+        if (u.acidRadical === 'formate') {
+          tube.showBubbles = true;
+          tube.showVapor = true;
+          tube.showCoFlame = true;
+          tube.isDissolved = true;
+          tube.liquidColor = 'rgba(226, 232, 240, 0.32)';
+          tube.statusBadge = 'Cold Eff. + CO Gas';
+          appState.discovered.h2so4Result = 'cold_co';
+          tube.observation = `CONC. H₂SO₄ ON COLD: Immediate brisk effervescence on cold with evolution of Carbon Monoxide (CO) gas that burns with a characteristic BLUE FLAME! Confirms Formate.`;
+          addLogEntry(`Tube #${tube.num}: Conc. H₂SO₄ on cold → Brisk eff. & CO gas burning with blue flame!`, 'positive');
+          return;
+        }
+
+        // Oxalic acid & Oxalate salts: Effervescence on hot + CLEAR solution
+        if (u.acidRadical === 'oxalate') {
+          if (isHot) {
+            tube.showBubbles = true;
+            tube.isDissolved = true;
+            tube.liquidColor = 'rgba(226, 232, 240, 0.32)';
+            tube.pptColor = 'transparent';
+            tube.pptHeight = 0;
+            tube.statusBadge = 'Eff. + Clear (Oxalate)';
+            appState.discovered.h2so4Result = 'hot_clear';
+            tube.observation = `CONC. H₂SO₄ ON HOT: Brisk effervescence (CO + CO₂) with a completely CLEAR, colorless solution (NO charring)! Confirms ${u.category === 'acid' ? 'Oxalic acid' : 'Oxalate salt'}.`;
+            addLogEntry(`Tube #${tube.num}: Conc. H₂SO₄ on hot → Effervescence & CLEAR solution (Oxalate)!`, 'positive');
+          } else {
+            tube.observation = `Conc. H₂SO₄ added to dry solid (minimal reaction on cold). Click "Warm Gently" to observe hot reaction!`;
+          }
+          return;
+        }
+
+        // Tartaric acid & Tartarate salts: Effervescence on hot + BLACK/BROWN CHARRING
+        if (u.acidRadical === 'tartarate') {
+          if (isHot) {
+            tube.showBubbles = true;
+            tube.showVapor = true;
+            tube.isDissolved = true;
+            tube.liquidColor = 'rgba(28, 25, 23, 0.92)'; // Deep black/brown charred mass
+            tube.pptColor = 'rgba(12, 10, 9, 0.98)';
+            tube.pptHeight = 20;
+            tube.statusBadge = 'Charring (Tartarate)';
+            appState.discovered.h2so4Result = 'hot_char';
+            tube.observation = `CONC. H₂SO₄ ON HOT: Brisk effervescence accompanied by intense BLACK/BROWN CHARRING and burnt sugar odor! Confirms ${u.category === 'acid' ? 'Tartaric acid' : 'Tartarate salt'}.`;
+            addLogEntry(`Tube #${tube.num}: Conc. H₂SO₄ on hot → Effervescence & BLACK CHARRING (Tartarate)!`, 'positive');
+          } else {
+            tube.liquidColor = 'rgba(120, 53, 15, 0.35)';
+            tube.observation = `Conc. H₂SO₄ added to dry solid (slight yellowing on cold). Click "Warm Gently" to observe charring!`;
+          }
+          return;
+        }
+
+        // Acetate salts with Conc. H2SO4 on hot -> Vinegar odor
+        if (u.acidRadical === 'acetate') {
+          if (isHot) {
+            tube.showVapor = true;
+            tube.isDissolved = true;
+            tube.liquidColor = 'rgba(226, 232, 240, 0.30)';
+            tube.statusBadge = 'Vinegar Odor';
+            tube.observation = `CONC. H₂SO₄ ON HOT: Sharp vinegar-like acetic acid vapors evolved without charring or CO gas.`;
+            addLogEntry(`Tube #${tube.num}: Conc. H₂SO₄ on hot → Vinegar odor (Acetate).`, 'neutral');
+          } else {
+            tube.observation = `Conc. H₂SO₄ added to dry solid. Warm gently if needed.`;
+          }
+          return;
+        }
+
+        // Urea with Conc. H2SO4
+        tube.isDissolved = true;
+        tube.observation = `Solid dissolves in Conc. H₂SO₄ without charring.`;
+        return;
+      }
+
+      // --- TEST H: Cold 30% NaOH Test for Basic Radical (NH4+ vs Na+/K+) ---
+      if (naoh30 > 0 && hasUnknown && feso4 === 0) {
+        tube.isDissolved = true;
+        tube.liquidColor = 'rgba(226, 232, 240, 0.28)';
+        if (u.basicRadical === 'NH4+') {
+          tube.showVapor = true;
+          tube.statusBadge = 'NH₃ Odor (NH₄⁺)';
+          appState.discovered.nh4Odor = true;
+          tube.observation = `COLD 30% NaOH TEST: Pungent AMMONIA (NH₃) ODOR evolved on cold! (Dip Red Litmus at tube mouth to see it turn blue). Confirms Ammonium radical (NH₄⁺).`;
+          addLogEntry(`Tube #${tube.num}: Cold 30% NaOH → Pungent Ammonia (NH₃) odor! (NH₄⁺ confirmed).`, 'positive');
+          return;
+        } else {
+          tube.statusBadge = 'No NH₃ Odor';
+          appState.discovered.nh4Odor = false;
+          tube.observation = `COLD 30% NaOH TEST: NO Ammonia odor evolved on cold. Rules out NH₄⁺ → Basic radical is Na⁺ or K⁺ (run Dry Heat / Flame Test to differentiate).`;
+          addLogEntry(`Tube #${tube.num}: Cold 30% NaOH → No ammonia odor (Na⁺ or K⁺).`, 'positive');
+          return;
+        }
+      }
+
+      // --- DEFAULT: Dissolution in Distilled H2O ---
+      if (hasUnknown && h2o > 0) {
+        if (trigger === 'shake' || tube.isDissolved) {
+          tube.isDissolved = true;
+          tube.liquidColor = 'rgba(224, 242, 254, 0.26)';
+          tube.statusBadge = 'Clear Aqueous Soln';
+          tube.observation = `Unknown solid completely dissolved in ${h2o.toFixed(2)} mL Distilled H₂O to form a clear, colorless solution. Dip Blue/Red Litmus or add test reagents.`;
+        } else {
+          tube.liquidColor = 'rgba(224, 242, 254, 0.24)';
+          tube.observation = `${h2o.toFixed(2)} mL Distilled H₂O added to ${tube.unknownSpatulas} spatula(s) of Unknown Solid. Click "Shake / Dissolve".`;
+        }
+      } else if (tube.volumeMl > 0 && !hasUnknown) {
+        tube.statusBadge = 'Reagent Only';
+        tube.observation = `Tube contains ${tube.volumeMl.toFixed(2)} mL of liquid reagent(s) without unknown solid.`;
+      }
+    }
+
+    // =========================================================================
+    // 7. VISUAL SVG & PANEL RENDERER
+    // =========================================================================
+    function renderActiveTube() {
+      const tube = getActiveTube();
+
+      document.getElementById('tube-title').textContent = `Tube #${tube.num}`;
+      document.getElementById('tube-status-badge').textContent = tube.statusBadge;
+      document.getElementById('tube-volume-display').textContent = `Vol: ${tube.volumeMl.toFixed(2)} mL`;
+
+      // Temperature badge
+      document.getElementById('temp-label').textContent = tube.tempState;
+      const tempDot = document.getElementById('temp-dot');
+      if (tube.tempState.includes('Warm') || tube.tempState.includes('Boil') || tube.tempState.includes('Flame') || tube.tempState.includes('Molten')) {
+        tempDot.className = 'w-2 h-2 rounded-full bg-orange-400 animate-pulse';
+      } else {
+        tempDot.className = 'w-2 h-2 rounded-full bg-sky-400';
+      }
+
+      // Litmus Pill
+      const litmusContainer = document.getElementById('litmus-badge-container');
+      if (tube.litmusResult) {
+        litmusContainer.classList.remove('hidden');
+        litmusContainer.textContent = `Litmus: ${tube.litmusResult}`;
+        litmusContainer.className = tube.litmusResult.includes('RED')
+          ? 'absolute top-3 right-3 px-2.5 py-1 rounded-full bg-rose-950/90 border border-rose-500/50 text-[11px] font-mono text-rose-300'
+          : tube.litmusResult.includes('BLUE') || tube.litmusResult.includes('Blue')
+          ? 'absolute top-3 right-3 px-2.5 py-1 rounded-full bg-blue-950/90 border border-blue-500/50 text-[11px] font-mono text-blue-300'
+          : 'absolute top-3 right-3 px-2.5 py-1 rounded-full bg-slate-900/95 border border-slate-700 text-[11px] font-mono text-slate-300';
+      } else {
+        litmusContainer.classList.add('hidden');
+      }
+
+      // SVG Liquid Level (max ~6 mL fills up to y=55, height=125)
+      const liquidRect = document.getElementById('svg-liquid-rect');
+      if (tube.volumeMl > 0) {
+        const clampedVol = Math.min(tube.volumeMl, 6.0);
+        const fillH = Math.max(24, (clampedVol / 6.0) * 124);
+        const fillY = 180 - fillH;
+        liquidRect.setAttribute('y', fillY);
+        liquidRect.setAttribute('height', fillH);
+        liquidRect.setAttribute('fill', tube.liquidColor);
+      } else {
+        liquidRect.setAttribute('y', 180);
+        liquidRect.setAttribute('height', 0);
+      }
+
+      // SVG Precipitate / Resolidified Layer
+      const pptLayer = document.getElementById('svg-ppt-layer');
+      if (tube.pptHeight > 0 && tube.pptColor !== 'transparent') {
+        const topY = 180 - tube.pptHeight;
+        pptLayer.setAttribute('d', `M 48 ${topY} L 92 ${topY} L 92 180 L 48 180 Z`);
+        pptLayer.setAttribute('fill', tube.pptColor);
+      } else {
+        pptLayer.setAttribute('fill', 'transparent');
+      }
+
+      // SVG Undissolved Granules
+      const granules = document.getElementById('svg-solid-granules');
+      if (tube.unknownSpatulas > 0 && !tube.isDissolved && !tube.isMoltenResolidified) {
+        granules.classList.remove('hidden');
+      } else {
+        granules.classList.add('hidden');
+      }
+
+      // Bubbles, Vapor, CO Flame
+      document.getElementById('svg-bubbles-group').classList.toggle('hidden', !tube.showBubbles);
+      document.getElementById('svg-vapor-group').classList.toggle('hidden', !tube.showVapor);
+      document.getElementById('svg-co-flame').classList.toggle('hidden', !tube.showCoFlame);
+
+      // Burner Flame under Tube
+      const burnerGroup = document.getElementById('svg-burner-flame');
+      const flameOuter = document.getElementById('svg-flame-outer');
+      const flameInner = document.getElementById('svg-flame-inner');
+      if (tube.burnerFlameType) {
+        burnerGroup.classList.remove('hidden');
+        if (tube.burnerFlameType === 'golden') {
+          flameOuter.setAttribute('fill', '#eab308');
+          flameInner.setAttribute('fill', '#fef08a');
+        } else if (tube.burnerFlameType === 'violet') {
+          flameOuter.setAttribute('fill', '#a855f7');
+          flameInner.setAttribute('fill', '#f3e8ff');
+        } else {
+          flameOuter.setAttribute('fill', '#f97316');
+          flameInner.setAttribute('fill', '#fde047');
+        }
+      } else {
+        burnerGroup.classList.add('hidden');
+      }
+
+      // Contents Text
+      const parts = [];
+      if (tube.unknownSpatulas > 0) parts.push(`${tube.unknownSpatulas} sp Unknown`);
+      if (tube.na2co3Spatulas > 0) parts.push(`${tube.na2co3Spatulas} sp Na₂CO₃`);
+      Object.entries(tube.reagents).forEach(([id, vol]) => {
+        if (vol > 0) {
+          const rObj = LIQUID_REAGENTS.find(x => x.id === id);
+          parts.push(`${vol.toFixed(2)} mL ${rObj ? rObj.name : id}`);
+        }
+      });
+      document.getElementById('tube-contents-text').textContent = parts.length > 0 ? parts.join(' + ') : 'Empty dry tube';
+
+      // Observation Box
+      document.getElementById('tube-observation-box').textContent = tube.observation;
+    }
+
+    // =========================================================================
+    // 8. GUIDED STUDY MODE NAVIGATOR
+    // =========================================================================
+    function updateGuidedNavigator() {
+      if (appState.mode !== 'guided') return;
+      const d = appState.discovered;
+      const stepBadge = document.getElementById('guided-step-badge');
+      const hintText = document.getElementById('guided-hint-text');
+
+      if (!d.litmus) {
+        stepBadge.textContent = 'Step 1: Solubility & Litmus';
+        hintText.innerHTML = 'Add <strong>1 spatula Unknown Solid</strong> + <strong>2 mL Distilled H₂O</strong>, click <strong>Shake / Dissolve</strong>, then dip <strong>Blue Litmus</strong>.';
+        return;
+      }
+
+      if (d.litmus === 'acidic') {
+        if (!d.na2co3Eff) {
+          stepBadge.textContent = 'Step 2: Acid Confirmation';
+          hintText.innerHTML = 'Litmus turned Red (Acidic). Add <strong>+1 spatula Solid Na₂CO₃</strong> to verify brisk CO₂ effervescence.';
+        } else if (!d.h2so4Result) {
+          stepBadge.textContent = 'Step 3: Oxalic vs Tartaric';
+          hintText.innerHTML = 'Switch to a clean dry tube (e.g., <strong>Tube #2</strong>), add <strong>2 spatulas Unknown</strong> + <strong>1 mL Conc. H₂SO₄</strong>, and click <strong>Warm Gently</strong> (Clear = Oxalic acid; Charring = Tartaric acid).';
+        } else {
+          stepBadge.textContent = 'Ready to Deduce';
+          hintText.innerHTML = `Acid pathway complete (${d.h2so4Result === 'hot_clear' ? 'Clear solution → Oxalic acid' : 'Charring → Tartaric acid'}). Select your compound in <strong>Final Unknown Deduction</strong>!`;
+        }
+        return;
+      }
+
+      // Neutral Branch
+      if (!d.fecl3Result) {
+        stepBadge.textContent = 'Step 2: Action of FeCl₃';
+        hintText.innerHTML = 'Neutral solution! In a tube with <strong>2 spatulas Unknown + 2 mL H₂O</strong> (shaken), add <strong>3 drops FeCl₃ Solution</strong>.';
+        return;
+      }
+
+      if (d.fecl3Result === 'blank') {
+        if (!d.biuretPositive) {
+          stepBadge.textContent = 'Step 3: Biuret Test (Urea)';
+          hintText.innerHTML = 'FeCl₃ gave Blank (Urea). Switch to a dry tube, add <strong>1 spatula Unknown</strong> → click <strong>Melt & Resolidify</strong> → <strong>Cool Under Tap</strong> → add <strong>2 mL 10% NaOH + 1 drop CuSO₄</strong>.';
+        } else {
+          stepBadge.textContent = 'Ready to Deduce';
+          hintText.innerHTML = 'Biuret test positive (Purple)! Select <strong>Urea</strong> in Final Unknown Deduction.';
+        }
+        return;
+      }
+
+      if (d.fecl3Result === 'blood_red' && !d.kmno4Result) {
+        stepBadge.textContent = 'Step 3: Formate vs Acetate';
+        hintText.innerHTML = 'Blood red color! In a fresh aqueous solution (<strong>1 sp Unknown + 2 mL H₂O</strong>), add <strong>Alkaline KMnO₄</strong> (Decolorized + Brown ppt = Formate; Stays purple = Acetate).';
+        return;
+      }
+
+      if (d.fecl3Result === 'lemon_yellow' && !d.h2so4Result) {
+        stepBadge.textContent = 'Step 3: Oxalate vs Tartarate';
+        hintText.innerHTML = 'Lemon yellow color! In a dry tube, add <strong>2 spatulas Unknown + 1 mL Conc. H₂SO₄</strong> and click <strong>Warm Gently</strong> (Clear = Oxalate; Charring = Tartarate).';
+        return;
+      }
+
+      // Basic Radical Step for Salts
+      if (d.nh4Odor === null) {
+        stepBadge.textContent = 'Step 4: Basic Radical (NH₄⁺)';
+        hintText.innerHTML = 'Acid radical identified! Now find the cation: In a clean tube, add <strong>2 spatulas Unknown + 2 mL 30% NaOH</strong> on cold to check for <strong>Ammonia (NH₃) odor</strong>.';
+        return;
+      }
+
+      if (d.nh4Odor === false && !d.flameColor) {
+        stepBadge.textContent = 'Step 5: Flame Test (Na⁺ vs K⁺)';
+        hintText.innerHTML = 'No NH₃ odor (so Na⁺ or K⁺). In a clean dry tube, add <strong>1 spatula Unknown</strong> and click <strong>Dry Heat / Flame</strong> (Golden yellow = Na⁺; Violet = K⁺).';
+        return;
+      }
+
+      stepBadge.textContent = 'All Tests Complete';
+      hintText.innerHTML = 'Both Acid and Basic radicals are identified! Choose the exact salt from the dropdown and click <strong>Submit Lab Report & Grade</strong>.';
+    }
+
+    // =========================================================================
+    // 9. GRADING & MODALS
+    // =========================================================================
+    function submitLabReport() {
+      const selectedId = document.getElementById('deduction-select').value;
+      if (!selectedId) {
+        addLogEntry('Please select an identified solid compound from the deduction dropdown before submitting.', 'alert');
+        return;
+      }
+
+      const guessed = SOLID_COMPOUNDS.find(c => c.id === selectedId);
+      const actual = appState.currentUnknown;
+      const isCorrect = guessed.id === actual.id;
+
+      const modal = document.getElementById('grade-modal');
+      const badge = document.getElementById('grade-badge');
+      const title = document.getElementById('grade-title');
+      const body = document.getElementById('grade-body');
+
+      if (isCorrect) {
+        badge.className = 'inline-block px-2.5 py-0.5 rounded-full text-xs font-bold mb-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        badge.textContent = `PASSED • ${appState.actionsCount} Bench Actions`;
+        title.textContent = `Correct! Unknown Vial #${appState.vialCode} is ${actual.name}`;
+      } else {
+        badge.className = 'inline-block px-2.5 py-0.5 rounded-full text-xs font-bold mb-1 bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        badge.textContent = 'INCORRECT DEDUCTION';
+        title.textContent = `You selected ${guessed.name}, but Vial #${appState.vialCode} was ${actual.name}`;
+      }
+
+      body.innerHTML = `
+        <div class="p-3 rounded-xl bg-bench-panel border border-bench-border">
+          <div class="text-[11px] font-mono uppercase text-slate-400 mb-1">Actual Unknown Compound</div>
+          <div class="text-sm font-bold text-white">${actual.name} <span class="font-mono text-emerald-400 font-normal">(${actual.formula})</span></div>
+        </div>
+        <div class="p-3 rounded-xl bg-bench-panel border border-bench-border">
+          <div class="text-[11px] font-mono uppercase text-sky-400 mb-1">Official Scheme Pathway</div>
+          <p class="text-slate-200">${actual.pathway}</p>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      addLogEntry(`Lab Report Submitted: Deduced ${guessed.name} (${isCorrect ? 'CORRECT' : 'INCORRECT — Actual: ' + actual.name}).`, isCorrect ? 'system' : 'alert');
+    }
+
+    function closeGradeModal() {
+      document.getElementById('grade-modal').classList.add('hidden');
+    }
+
+    function toggleSchemeModal(show) {
+      document.getElementById('scheme-modal').classList.toggle('hidden', !show);
+    }
+
+    // Boot application
+    window.onload = initApp;
+  </script>
+</body>
+</html>
